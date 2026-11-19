@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XY_NET | Network Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⌘</div>
+            <div>
+                <h2>XY_NET</h2>
+                <span>NETWORK MANAGER</span>
+            </div>
+        </div>
+
+        <div class="nav-label">MAIN MENU</div>
+
+        <nav>
+            <a href="#overview" class="active">▦ &nbsp; Dashboard</a>
+            <a href="#version">◈ &nbsp; Show Version</a>
+            <a href="#interfaces">⇄ &nbsp; IP Interfaces</a>
+            <a href="#config">☷ &nbsp; Running Config</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            Cisco Network Management
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1>Network Dashboard</h1>
+                <p>Monitor and manage your Cisco network device.</p>
+            </div>
+            <div class="admin-profile">
+                <span class="avatar">A</span>
+                <span>Administrator</span>
+            </div>
+        </header>
+
+        <section id="overview" class="overview">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Device Overview</h2>
+                    <p>Connect to your router to retrieve live device information.</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span class="stat-label">DEVICE IP ADDRESS</span>
+                    <h3>192.168.10.44</h3>
+                    <p>Target Cisco Router</p>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">CONNECTION TYPE</span>
+                    <h3>Telnet</h3>
+                    <p>Port 32770</p>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">AVAILABLE COMMANDS</span>
+                    <h3>03</h3>
+                    <p>Cisco IOS Commands</p>
+                </div>
+
+            </div>
+
+            <div class="connection-card">
+                <div>
+                    <h3>Router Connection</h3>
+                    <p>Execute all three Cisco IOS commands and retrieve their output.</p>
+                </div>
+
+                <form method="POST" action="/">
+                    <button type="submit" class="connect-btn">
+                        ▶ Connect & Run Commands
+                    </button>
+                </form>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                <strong>Connection Error</strong>
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+
+        </section>
+
+        <section class="results-section">
+
+            <div class="section-heading">
+                <h2>Command Results</h2>
+                <p>Output retrieved directly from the Cisco device.</p>
+            </div>
+
+            <div class="command-card" id="version">
+                <div class="command-header">
+                    <div>
+                        <span class="command-tag">COMMAND 01</span>
+                        <h3>Show Version</h3>
+                        <p>IOS version, device model, uptime and system details.</p>
+                    </div>
+                    <span class="command-name">show version</span>
+                </div>
+
+                <div class="terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span>ROUTER TERMINAL</span>
+                    </div>
+                    <pre>{% if results.get('show version') %}{{ results['show version'] }}{% else %}Router# show version
+
+Waiting for command execution...{% endif %}</pre>
+                </div>
+            </div>
+
+            <div class="command-card" id="interfaces">
+                <div class="command-header">
+                    <div>
+                        <span class="command-tag">COMMAND 02</span>
+                        <h3>IP Interface Brief</h3>
+                        <p>Interface IP addresses and operational status.</p>
+                    </div>
+                    <span class="command-name">show ip interface brief</span>
+                </div>
+
+                <div class="terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span>ROUTER TERMINAL</span>
+                    </div>
+                    <pre>{% if results.get('show ip interface brief') %}{{ results['show ip interface brief'] }}{% else %}Router# show ip interface brief
+
+Waiting for command execution...{% endif %}</pre>
+                </div>
+            </div>
+
+            <div class="command-card" id="config">
+                <div class="command-header">
+                    <div>
+                        <span class="command-tag">COMMAND 03</span>
+                        <h3>Running Configuration</h3>
+                        <p>Current active configuration of your Cisco router.</p>
+                    </div>
+                    <span class="command-name">show running-config</span>
+                </div>
+
+                <div class="terminal">
+                    <div class="terminal-bar">
+                        <div class="terminal-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span>ROUTER TERMINAL</span>
+                    </div>
+                    <pre>{% if results.get('show running-config') %}{{ results['show running-config'] }}{% else %}Router# show running-config
+
+Waiting for command execution...{% endif %}</pre>
+                </div>
+            </div>
+
+        </section>
+
+        <footer>
+            XY_NET Network Management System | Powered by Flask & Netmiko
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>
